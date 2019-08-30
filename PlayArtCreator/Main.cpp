@@ -1,14 +1,21 @@
 /***********************************************************************************
-This is a chess program that creates a chess board with controlled random positioning
-of the back row of pieces. The king and rooks will always be in the same position, however,
-all other pieces will be randomized. The only exception, is that a light and dark square
-bishop is required. All told, there are 18 different starting positions, excluding repeats.
-So this version of chess might be called chess 18. If we don't want to mirror the positions,
-then we can call this chess 324.
+Wow, fuck me. Can't read in strings into c++ without first saving the length of the string.
+
+So fucking irritating.
+
+Maybe I'll make a .Net implementation.
+
+Maybe not. The real problem is loading in the data. Maybe I'll... 
+Nope, c# strings are collections of System.Char objects. So you can't possibly know the actual
+data size of the stored string. Fuck me.
+
+Stop whining like a little bitch. Convert the file to a text file and then load it in you
+moron.
 ***********************************************************************************/
 
 
 #include <iostream>
+#include <fstream>
 #include <cstdlib>
 #include "time.h"
 #include <string>
@@ -18,6 +25,38 @@ then we can call this chess 324.
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb-master\stb_image_write.h"
 
+struct Vec2 {
+	int x, y;
+};
+
+struct DATA_Route {
+	std::string mName;
+	int numSpots;
+	Vec2* aSpots;
+};
+
+struct RouteHolder {
+	int numRoutes;
+	DATA_Route* aRoutes;
+};
+
+struct DATA_PlayRole {
+	std::string				mTag;
+	std::string				mRole;
+	std::string				mDetail;
+	Vec2					mStart;
+};
+
+struct DATA_Off_Play {
+	std::string				mName;
+	int						numPlayers;
+	DATA_PlayRole*			pRoles;
+};
+
+struct PlayHolder {
+	int						numPlays;
+	DATA_Off_Play*			aPlays;
+};
 
 struct Pixel {
 	unsigned char r, g, b, a;
@@ -34,6 +73,8 @@ struct Graphic {
 	std::string type;
 };
 
+PlayHolder pHolder;
+RouteHolder rHolder;
 
 Graphic gField;
 Graphic gPlayer;
@@ -44,6 +85,26 @@ Image FINAL_PLAY;
 const int PLAY_SIZE_PIXELS = 500;		//500x500 pixels.
 
 float scale;		//used for graphics.
+
+// we assume that we are getting a vector2 in the format of (x,y)
+Vec2 GetVecFromString(std::string sVec)
+{
+	
+	int commaLoc = sVec.find(',');
+	std::string xVal = sVec.substr(1, commaLoc - 1);
+	int endBrack = sVec.find(')');
+	std::string yVal = sVec.substr(commaLoc + 1, endBrack - commaLoc - 1);
+
+	Vec2 vec;
+	vec.x = std::stoi(xVal);
+	vec.y = std::stoi(yVal);
+
+	return vec;
+}
+
+bool LoadRoutes(RouteHolder* pRouteHolder, std::string filePath);
+
+bool LoadPlays(PlayHolder* pPlayHolder, std::string filePath);
 
 ///Load in a PNG to our Image struct
 bool LoadImage(Image* pImg, std::string filePath);
@@ -80,8 +141,14 @@ int RoundFloatUpOrDown(float num) {
 	}
 }
 
+void CreateFieldPNG();
+
+void PrintAllRoutes();
+void PrintAllPlays();
+
 std::string bsPth = "C:/Users/Timothy/Documents/Visual Studio 2017/Projects/PlayArtCreator/GUNSLINGER_PLAYART_CREATOR/PlayArtCreator";
 std::string imgPath(bsPth + "/Graphics");
+
 
 int main(int args, char** argc)
 {
@@ -94,16 +161,55 @@ int main(int args, char** argc)
 
 	LoadImages(imgPath);
 
-	ScaleApplyImage(&FINAL_PLAY, &gBlock.img, 0, 0, 20);
-	ScaleApplyImage(&FINAL_PLAY, &gField.img, 0, 0, FINAL_PLAY.wd);
-	ScaleApplyImage(&FINAL_PLAY, &gBlock.img, 0, 0, 10);
-	WriteImage(FINAL_PLAY, "test.png");
+	//ScaleApplyImage(&FINAL_PLAY, &gBlock.img, 0, 0, 20);
+	//ScaleApplyImage(&FINAL_PLAY, &gField.img, 0, 0, FINAL_PLAY.wd);
+	//ScaleApplyImage(&FINAL_PLAY, &gBlock.img, 0, 0, 10);
+	//WriteImage(FINAL_PLAY, "test.png");
+
+	LoadRoutes(&rHolder, bsPth+"/routes.txt");
+	LoadPlays(&pHolder, bsPth + "/plays.txt");
+
+	//PrintAllRoutes();
+	//PrintAllPlays();
+
+	// Finally, the time has come to actually print out the play art.
+	CreateFieldPNG();
 
 	//CreateBoardPNG();
 
 	//std::getchar();
 
 	return 0;
+}
+
+void PrintAllPlays()
+{
+	std::cout << "Num Plays Loaded: " << pHolder.numPlays << std::endl;
+	for (int i = 0; i < pHolder.numPlays; i++)
+	{
+		std::cout << "Name of Play: " << pHolder.aPlays[i].mName << std::endl;
+		for (int j = 0; j < pHolder.aPlays[i].numPlayers; j++)
+		{
+			std::cout << pHolder.aPlays[i].pRoles[j].mDetail << ", ";
+		}
+		std::cout << std::endl;
+	}
+
+}
+
+void PrintAllRoutes()
+{
+	std::cout << "Num Routes loaded: " << rHolder.numRoutes << std::endl;
+	for (int i = 0; i < rHolder.numRoutes; i++)
+	{
+		std::cout << "Name of Route: " << rHolder.aRoutes[i].mName << std::endl;
+		for (int j = 0; j < rHolder.aRoutes[i].numSpots; j++)
+		{
+			std::cout << "(" << rHolder.aRoutes[i].aSpots[j].x << "," << rHolder.aRoutes[i].aSpots[j].y << ")";
+		}
+
+		std::cout << std::endl;
+	}
 }
 
 bool LoadImage(Image* pImg, std::string filePath) {
@@ -296,6 +402,26 @@ void DeleteImage(Image img) {
 	delete img.pImg;
 }
 
+// I know that the play art field is 500x500, although I can do the math.
+void CreateFieldPNG()
+{
+	ScaleApplyImage(&FINAL_PLAY, &gField.img, 0, 0, FINAL_PLAY.wd);
+
+	// let's see if we can place all the players in the right spot.
+	for (int i = 0; i < pHolder.aPlays[0].numPlayers; i++)
+	{
+		// Start is relative to snap, which is always 25 yards in, and 40 yards deep.
+		Vec2 adjPos = pHolder.aPlays[0].pRoles[i].mStart;
+		adjPos.x = (25 + adjPos.x) * 2;
+		adjPos.y = (40 - adjPos.y) * 2;			// y goes top to bottom
+
+		ScaleApplyImage(&FINAL_PLAY, &gPlayer.img, adjPos.x, adjPos.y, 5);
+	}
+	
+	//ScaleApplyImage(&FINAL_PLAY, &gPlayer.img, 50, 50, 10);
+	WriteImage(FINAL_PLAY, "test2.png");
+}
+
 
 /***********************************************
 LEAVING AS REFERENCE
@@ -338,3 +464,75 @@ void CreateBoardPNG()
 	WriteImage(FINAL_BOARD, "full board.png");
 }
 ********************************/
+
+bool LoadRoutes(RouteHolder* pRouteHolder, std::string filePath)
+{
+	std::ifstream file("routes.txt");
+	std::string str;
+	std::getline(file, str);
+	int numRoutes = std::stoi(str);
+	pRouteHolder->aRoutes = new DATA_Route[numRoutes];
+	pRouteHolder->numRoutes = numRoutes;
+	for (int i = 0; i < numRoutes; i++)
+	{
+		std::getline(file, str);
+		pRouteHolder->aRoutes[i].mName = str;
+
+		// now here's where we have to format this stuff.
+		std::getline(file, str);
+		int numSpots = std::stoi(str);
+		pRouteHolder->aRoutes[i].numSpots = numSpots;
+		pRouteHolder->aRoutes[i].aSpots = new Vec2[numSpots];
+		std::getline(file, str);
+		int ind = 0;
+		int endInd;
+		for (int j = 0; j < numSpots; j++)
+		{
+			endInd = str.find(')', ind);
+			// alright, read in until the ), strip away all else, then convert what remains to an int.
+			std::string sVec = str.substr(ind, 1 + endInd - ind);
+
+			pRouteHolder->aRoutes[i].aSpots[j] = GetVecFromString(sVec);
+
+			ind = endInd + 1;
+		}
+	}
+
+	return false;
+}
+
+bool LoadPlays(PlayHolder* pPlayHolder, std::string filePath)
+{
+	std::ifstream file("plays.txt");
+	std::string str;
+	std::getline(file, str);
+	int numPlays = std::stoi(str);
+	pPlayHolder->aPlays = new DATA_Off_Play[numPlays];
+	pPlayHolder->numPlays = numPlays;
+	for (int i = 0; i < numPlays; i++)
+	{
+		std::getline(file, str);
+		pPlayHolder->aPlays[i].mName = str;
+
+		// now here's where we have to format this stuff.
+		std::getline(file, str);
+		int numJobs = std::stoi(str);
+		pPlayHolder->aPlays[i].numPlayers = numJobs;
+		pPlayHolder->aPlays[i].pRoles = new DATA_PlayRole[numJobs];
+
+		for (int j = 0; j < numJobs; j++)
+		{
+			std::getline(file, str);
+			pPlayHolder->aPlays[i].pRoles[j].mTag = str;
+			std::getline(file, str);
+			pPlayHolder->aPlays[i].pRoles[j].mRole = str;
+			std::getline(file, str);
+			pPlayHolder->aPlays[i].pRoles[j].mDetail = str;
+			std::getline(file, str);
+			pPlayHolder->aPlays[i].pRoles[j].mStart = GetVecFromString(str);
+		}
+	}
+
+	return false;
+}
+

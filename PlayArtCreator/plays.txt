@@ -1,0 +1,277 @@
+6
+Default
+11
+RG
+Pass Block
+Standard
+(3,0)
+HB
+Route
+Flat
+(0,-7)
+RT
+Pass Block
+Standard
+(7,0)
+QB
+Run Block
+Standard
+(0,-2)
+LT
+Pass Block
+Standard
+(-7,0)
+WR3
+Route
+Go
+(-13,-2)
+TE1
+Route
+Seam
+(11,-1)
+LG
+Pass Block
+Standard
+(-3,0)
+C
+Pass Block
+Standard
+(0,0)
+WR2
+Route
+Go
+(20,0)
+WR1
+Route
+Go
+(-20,0)
+Default2
+11
+WR1
+Route
+Go
+(-20,0)
+WR2
+Route
+Go
+(20,0)
+C
+Pass Block
+Standard
+(0,0)
+LG
+Pass Block
+Standard
+(-3,0)
+TE1
+Route
+Seam
+(11,-1)
+TE2
+Route
+Go
+(14,-1)
+LT
+Pass Block
+Standard
+(-7,0)
+QB
+Run Block
+Standard
+(0,-2)
+RT
+Pass Block
+Standard
+(7,0)
+HB
+Route
+Flat
+(0,-7)
+RG
+Pass Block
+Standard
+(3,0)
+NoIdea
+11
+WR1
+Route
+PostR
+(-20,0)
+WR2
+Route
+MHitchL
+(20,0)
+C
+Pass Block
+Standard
+(0,0)
+LG
+Pass Block
+Standard
+(-3,0)
+TE1
+Route
+SCrossL
+(11,-1)
+WR3
+Route
+OutL
+(16,-2)
+LT
+Pass Block
+Standard
+(-7,0)
+QB
+Run Block
+Standard
+(0,-2)
+RT
+Pass Block
+Standard
+(7,0)
+HB
+Route
+FlatL
+(0,-7)
+RG
+Pass Block
+Standard
+(3,0)
+SailL
+11
+WR1
+Route
+Go
+(-20,0)
+WR2
+Route
+PostL
+(20,0)
+C
+Pass Block
+Standard
+(0,0)
+LG
+Pass Block
+Standard
+(-3,0)
+TE1
+Pass Block
+Standard
+(11,-1)
+WR3
+Route
+OutL
+(-14,-2)
+LT
+Pass Block
+Standard
+(-7,0)
+QB
+Run Block
+Standard
+(0,-2)
+RT
+Pass Block
+Standard
+(7,0)
+HB
+Route
+Flat
+(0,-7)
+RG
+Pass Block
+Standard
+(3,0)
+SmashL
+11
+WR1
+Route
+SHitchR
+(-20,0)
+WR2
+Route
+SCrossL
+(20,0)
+C
+Pass Block
+Standard
+(0,0)
+LG
+Pass Block
+Standard
+(-3,0)
+TE1
+Route
+OutL
+(11,-1)
+WR3
+Route
+PostL
+(-14,-2)
+LT
+Pass Block
+Standard
+(-7,0)
+QB
+Run Block
+Standard
+(0,-2)
+RT
+Pass Block
+Standard
+(7,0)
+HB
+Pass Block
+Standard
+(0,-7)
+RG
+Pass Block
+Standard
+(3,0)
+TripsSailL
+11
+WR1
+Route
+Go
+(-20,0)
+WR2
+Route
+PostL
+(-12,0)
+C
+Pass Block
+Standard
+(0,0)
+LG
+Pass Block
+Standard
+(-3,0)
+TE1
+Pass Block
+Standard
+(11,-1)
+WR3
+Route
+MHitchL
+(-17,-2)
+LT
+Pass Block
+Standard
+(-7,0)
+QB
+Run Block
+Standard
+(0,-2)
+RT
+Pass Block
+Standard
+(7,0)
+HB
+Route
+FlatL
+(0,-7)
+RG
+Pass Block
+Standard
+(3,0)
