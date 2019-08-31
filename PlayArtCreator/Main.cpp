@@ -1,16 +1,10 @@
 /***********************************************************************************
-Wow, fuck me. Can't read in strings into c++ without first saving the length of the string.
+Loads in all Offensive Plays created in the PE_Editor scene of Unity. I've already 
+converted them to text files, so we just load them all in, then make play art for them.
 
-So fucking irritating.
+The play art is very... programmer-ish, but it gets the job done as a sort of placeholder.
 
-Maybe I'll make a .Net implementation.
-
-Maybe not. The real problem is loading in the data. Maybe I'll... 
-Nope, c# strings are collections of System.Char objects. So you can't possibly know the actual
-data size of the stored string. Fuck me.
-
-Stop whining like a little bitch. Convert the file to a text file and then load it in you
-moron.
+The generated playart will be displayed when the player is picking plays.
 ***********************************************************************************/
 
 
@@ -190,11 +184,6 @@ int main(int args, char** argc)
 	std::cout << sSavePath;
 
 	LoadImages(imgPath);
-
-	//ScaleApplyImage(&FINAL_PLAY, &gBlock.img, 0, 0, 20);
-	//ScaleApplyImage(&FINAL_PLAY, &gField.img, 0, 0, FINAL_PLAY.wd);
-	//ScaleApplyImage(&FINAL_PLAY, &gBlock.img, 0, 0, 10);
-	//WriteImage(FINAL_PLAY, "test.png");
 
 	LoadRoutes(&rHolder, bsPth+"/routes.txt");
 	LoadPlays(&pHolder, bsPth + "/plays.txt");
@@ -480,7 +469,7 @@ void CreateFieldPNG(int ind)
 	}
 	
 	//ScaleApplyImage(&FINAL_PLAY, &gPlayer.img, 50, 50, 10);
-	std::string sName = pHolder.aPlays[ind].mName + ".png";
+	std::string sName = "PlayArt/" + pHolder.aPlays[ind].mName + ".png";
 	WriteImage(FINAL_PLAY, sName);
 }
 
