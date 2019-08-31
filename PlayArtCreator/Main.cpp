@@ -27,6 +27,30 @@ moron.
 
 struct Vec2 {
 	int x, y;
+	Vec2 operator+(const Vec2& v2) {
+		Vec2 v;
+		v.x = x + v2.x;
+		v.y = y + v2.y;
+		return v;
+	}
+	Vec2 operator-(const Vec2& v2) {
+		Vec2 v;
+		v.x = x - v2.x;
+		v.y = y - v2.y;
+		return v;
+	}
+	Vec2 operator*(const int val) {
+		Vec2 v;
+		v.x = x * val;
+		v.y = y * val;
+		return v;
+	}
+	Vec2 operator/(const int val) {
+		Vec2 v;
+		v.x = x / val;
+		v.y = y / val;
+		return v;
+	}
 };
 
 struct DATA_Route {
@@ -78,7 +102,8 @@ RouteHolder rHolder;
 
 Graphic gField;
 Graphic gPlayer;
-Graphic gRoute;
+Graphic gRouteBase;
+Graphic gRouteArrow;
 Graphic gBlock;
 
 Image FINAL_PLAY;
@@ -108,6 +133,8 @@ bool LoadPlays(PlayHolder* pPlayHolder, std::string filePath);
 
 ///Load in a PNG to our Image struct
 bool LoadImage(Image* pImg, std::string filePath);
+
+void CenteredScaleApplyImage(Image* pI1, Image* pI2, int startX, int startY, float size);
 
 //blit image 2 onto a percent of image 1.
 void ScaleApplyImage(Image* pI1, Image* pI2, int startX, int startY, float size);
@@ -141,10 +168,13 @@ int RoundFloatUpOrDown(float num) {
 	}
 }
 
-void CreateFieldPNG();
+void CreateAllPlayArt();
+void CreateFieldPNG(int ind);
 
 void PrintAllRoutes();
 void PrintAllPlays();
+
+void RenderRoute(std::string name, Vec2 vStart);
 
 std::string bsPth = "C:/Users/Timothy/Documents/Visual Studio 2017/Projects/PlayArtCreator/GUNSLINGER_PLAYART_CREATOR/PlayArtCreator";
 std::string imgPath(bsPth + "/Graphics");
@@ -173,7 +203,7 @@ int main(int args, char** argc)
 	//PrintAllPlays();
 
 	// Finally, the time has come to actually print out the play art.
-	CreateFieldPNG();
+	CreateAllPlayArt();
 
 	//CreateBoardPNG();
 
@@ -190,9 +220,10 @@ void PrintAllPlays()
 		std::cout << "Name of Play: " << pHolder.aPlays[i].mName << std::endl;
 		for (int j = 0; j < pHolder.aPlays[i].numPlayers; j++)
 		{
-			std::cout << pHolder.aPlays[i].pRoles[j].mDetail << ", ";
+			std::cout << "Tag: " << pHolder.aPlays[i].pRoles[j].mTag << " Role: " << pHolder.aPlays[i].pRoles[j].mRole << " Detail: " << pHolder.aPlays[i].pRoles[j].mDetail;
+			std::cout << "\n";
 		}
-		std::cout << std::endl;
+		std::cout << "\n\n";
 	}
 
 }
@@ -259,8 +290,11 @@ void LoadImages(std::string path)
 	gField.type = "Field";
 	LoadImage(&gField.img, path + "\\Field.png");
 
-	gRoute.type = "Route";
-	LoadImage(&gRoute.img, path + "\\Route.png");
+	gRouteBase.type = "RouteBase";
+	LoadImage(&gRouteBase.img, path + "\\RouteBase.png");
+
+	gRouteArrow.type = "RouteArrow";
+	LoadImage(&gRouteArrow.img, path + "\\RouteArrow.png");
 }
 
 //using simple nearest neighbour.
@@ -300,6 +334,17 @@ Image ResizeImage(Image old, float size)
 
 	}
 	return temp;
+}
+
+// Maybe not quite yet.
+void StretchScaleApplyImage(Image* pI1, Image* pI2, int startX, int startY, int finishX, int finishY)
+{
+
+}
+
+void CenteredScaleApplyImage(Image* pI1, Image* pI2, int startX, int startY, float size)
+{
+	ScaleApplyImage(pI1, pI2, startX - size / 2, startY - size / 2, size);
 }
 
 void ScaleApplyImage(Image* pI1, Image* pI2, int startX, int startY, float size) {
@@ -402,26 +447,93 @@ void DeleteImage(Image img) {
 	delete img.pImg;
 }
 
+void CreateAllPlayArt()
+{
+	for (int i = 0; i < pHolder.numPlays; i++)
+	{
+		CreateFieldPNG(i);
+	}
+}
+
 // I know that the play art field is 500x500, although I can do the math.
-void CreateFieldPNG()
+void CreateFieldPNG(int ind)
 {
 	ScaleApplyImage(&FINAL_PLAY, &gField.img, 0, 0, FINAL_PLAY.wd);
 
 	// let's see if we can place all the players in the right spot.
-	for (int i = 0; i < pHolder.aPlays[0].numPlayers; i++)
+	for (int i = 0; i < pHolder.aPlays[ind].numPlayers; i++)
 	{
 		// Start is relative to snap, which is always 25 yards in, and 40 yards deep.
-		Vec2 adjPos = pHolder.aPlays[0].pRoles[i].mStart;
+		Vec2 adjPos = pHolder.aPlays[ind].pRoles[i].mStart;
 		adjPos.x = (25 + adjPos.x) * 2;
 		adjPos.y = (40 - adjPos.y) * 2;			// y goes top to bottom
 
-		ScaleApplyImage(&FINAL_PLAY, &gPlayer.img, adjPos.x, adjPos.y, 5);
+		CenteredScaleApplyImage(&FINAL_PLAY, &gPlayer.img, adjPos.x, adjPos.y, 5);
+
+		// Now we also have to render their assignments.
+		if (pHolder.aPlays[ind].pRoles[i].mRole == "Route") {
+			RenderRoute(pHolder.aPlays[ind].pRoles[i].mDetail, adjPos);
+		}
+		else if (pHolder.aPlays[ind].pRoles[i].mRole == "Pass Block") {
+			CenteredScaleApplyImage(&FINAL_PLAY, &gBlock.img, adjPos.x, adjPos.y + 2, 2);
+		}
 	}
 	
 	//ScaleApplyImage(&FINAL_PLAY, &gPlayer.img, 50, 50, 10);
-	WriteImage(FINAL_PLAY, "test2.png");
+	std::string sName = pHolder.aPlays[ind].mName + ".png";
+	WriteImage(FINAL_PLAY, sName);
 }
 
+/******************************************************************
+Ultimately the solution is to render stretched and rotated graphics, but 
+that requires too much changes. So just make a little dot trail for now.
+
+Render a solid white line from each point.
+Then render an arrow, just a little beyond the last point.
+Yes.
+
+The starting position has already been adjusted for.
+******************************************************************/
+void RenderRoute(std::string name, Vec2 vStart)
+{
+	DATA_Route rt;
+	for (int i = 0; i < rHolder.numRoutes; i++)
+	{
+		if (rHolder.aRoutes[i].mName == name) {
+			rt = rHolder.aRoutes[i];
+		}
+	}
+
+	// Render an image, from one spot to the next.
+	for (int i = 0; i < rt.numSpots; i++)
+	{
+		// if we're at the end, place the arrow. Shit, have to rotate the arrow.
+		if (i + 1 == rt.numSpots)
+		{
+		}
+		else {
+			// unfortunately, since y is inverted, we have to do this manually
+			Vec2 startPos = vStart;
+			startPos.x += rt.aSpots[i].x;
+			startPos.y -= rt.aSpots[i].y;
+			//Vec2 startPos = vStart + rt.aSpots[i] * (PLAY_SIZE_PIXELS / 50);
+			Vec2 endPos = vStart;
+			endPos.x += rt.aSpots[i + 1].x;
+			endPos.y -= rt.aSpots[i + 1].y;
+
+			CenteredScaleApplyImage(&FINAL_PLAY, &gRouteArrow.img, startPos.x, startPos.y, 2);
+			CenteredScaleApplyImage(&FINAL_PLAY, &gRouteArrow.img, endPos.x, endPos.y, 2);
+			Vec2 dis;
+			dis = endPos - startPos;
+			int numSteps = 10;
+			for (int j = 0; j < numSteps; j++) {
+				float xStep = (float)dis.x * ((float)j / (float)numSteps);
+				float yStep = (float)dis.y * ((float)j / (float)numSteps);
+				CenteredScaleApplyImage(&FINAL_PLAY, &gRouteArrow.img, startPos.x + xStep, startPos.y + yStep, 2);
+			}
+		}
+	}
+}
 
 /***********************************************
 LEAVING AS REFERENCE
