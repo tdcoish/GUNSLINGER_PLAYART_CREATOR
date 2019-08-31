@@ -54,7 +54,7 @@ struct DATA_Off_Play {
 	DATA_PlayRole*			pRoles;
 };
 
-struct PlayHolder {
+struct OffPlayHolder {
 	int						numPlays;
 	DATA_Off_Play*			aPlays;
 };

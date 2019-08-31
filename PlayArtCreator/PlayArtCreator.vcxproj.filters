@@ -21,12 +21,21 @@
     <ClCompile Include="Blit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="OffensivePlays.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Blit.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Structs.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OffensivePlays.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Globals.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
