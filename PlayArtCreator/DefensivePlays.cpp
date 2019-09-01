@@ -12,6 +12,7 @@ DefPlayHolder DefPlayList;
 Graphic gDefender;
 Graphic gDeepZone;
 Graphic gShortZone;
+Graphic gZoneTrail;
 
 bool LoadZones(std::string filePath)
 {
@@ -101,6 +102,9 @@ void LoadDefGraphics(std::string path)
 
 	gDeepZone.type = "Deep Zone";
 	LoadImage(&gDeepZone.img, path + "\\DeepZone.png");
+
+	gZoneTrail.type = "Zone Trail";
+	LoadImage(&gZoneTrail.img, path + "\\ZoneTrail.png");
 }
 
 void CreateAllDefensivePlayArt()
@@ -113,7 +117,7 @@ void CreateAllDefensivePlayArt()
 
 // Actually, we might not need the name, at least not yet.
 // Nevermind, all we need is the name, do everything else in here.
-void RenderZone(std::string sName)
+void RenderZone(std::string sName, Vec2 scnPlyPos)
 {
 	Vec2 zSpot;
 	for (int i = 0; i < ZoneList.numZones; i++)
@@ -131,6 +135,17 @@ void RenderZone(std::string sName)
 	screenSpot.x *= 2;
 	screenSpot.y *= 2;
 
+	// Now after this we're going to render little dots from the player to the zone.
+	Vec2 dis;
+	dis = screenSpot - scnPlyPos;
+	int numSteps = 10;
+	for (int j = 1; j < numSteps-1; j++) {
+		float xStep = (float)dis.x * ((float)j / (float)numSteps);
+		float yStep = (float)dis.y * ((float)j / (float)numSteps);
+		CenteredScaleApplyImage(&FINAL_PLAY, &gZoneTrail.img, scnPlyPos.x + xStep, scnPlyPos.y + yStep, 1);
+	}
+
+	// Render the zone after the trail.
 	if (zSpot.y > 10)
 	{
 		CenteredScaleApplyImage(&FINAL_PLAY, &gDeepZone.img, screenSpot.x, screenSpot.y, 15);
@@ -154,13 +169,14 @@ void CreateDefensiveFieldPNG(int ind)
 		adjPos.x = (25 + adjPos.x) * 2;
 		adjPos.y = (40 - adjPos.y) * 2;			// y goes top to bottom
 
-		CenteredScaleApplyImage(&FINAL_PLAY, &gDefender.img, adjPos.x, adjPos.y, 5);
 
 		if (DefPlayList.aPlays[ind].pRoles[i].mRole == "Zone")
 		{
-			RenderZone(DefPlayList.aPlays[ind].pRoles[i].mDetail);
+			RenderZone(DefPlayList.aPlays[ind].pRoles[i].mDetail, adjPos);
 		}
 
+		// Render the players themselves last.
+		CenteredScaleApplyImage(&FINAL_PLAY, &gDefender.img, adjPos.x, adjPos.y, 5);
 		//// Now we also have to render their assignments.
 		//if (DefPlayList.aPlays[ind].pRoles[i].mRole == "Route") {
 		//	RenderRoute(DefPlayList.aPlays[ind].pRoles[i].mDetail, adjPos);

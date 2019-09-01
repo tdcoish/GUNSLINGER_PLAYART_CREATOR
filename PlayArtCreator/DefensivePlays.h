@@ -9,6 +9,7 @@ extern DefPlayHolder DefPlayList;
 extern Graphic gDefender;
 extern Graphic gDeepZone;
 extern Graphic gShortZone;
+extern Graphic gZoneTrail;
 
 bool LoadZones(std::string filePath);
 bool LoadDefensivePlays(std::string filePath);
