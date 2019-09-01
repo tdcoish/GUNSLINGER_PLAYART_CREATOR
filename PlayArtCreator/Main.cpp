@@ -24,12 +24,15 @@ Alright, parts of this program.
 #include "Blit.h"
 #include "Structs.h"
 #include "OffensivePlays.h"
+#include "DefensivePlays.h"
 
 
 std::string bsPth = "C:/Users/Timothy/Documents/Visual Studio 2017/Projects/PlayArtCreator/GUNSLINGER_PLAYART_CREATOR/PlayArtCreator";
 std::string imgPath(bsPth + "/Graphics");
 
 Image FINAL_PLAY;
+Graphic gField;
+
 
 // I just had no idea where to shove this guy.
 // we assume that we are getting a vector2 in the format of (x,y)
@@ -48,6 +51,13 @@ Vec2 GetVecFromString(std::string sVec)
 	return vec;
 }
 
+std::string ConvertVecToString(Vec2 v)
+{
+	std::string sVec = "(" + std::to_string(v.x) + "," + std::to_string(v.y) + ")";
+	std::cout << sVec;
+	return sVec;
+}
+
 int main(int args, char** argc)
 {
 	std::cout << "Base Path: " << bsPth << std::endl;
@@ -58,17 +68,24 @@ int main(int args, char** argc)
 	std::cout << sSavePath;
 
 	LoadImages(imgPath);
+	LoadDefGraphics(imgPath);
 
 	LoadRoutes(&rHolder, bsPth+"/routes.txt");
 	LoadOffensivePlays(bsPth + "/plays.txt");
 
+	LoadZones(bsPth + "/zones.txt");
+	LoadDefensivePlays(bsPth + "/defPlays.txt");
+
+
 	//PrintAllRoutes();
 	//PrintAllPlays();
+	//PrintAllZones();
+	//PrintAllDefensivePlays();
 
 	// Finally, the time has come to actually print out the play art.
-	CreateAllOffPlayArt();
+	//CreateAllOffPlayArt();
+	//CreateAllDefensivePlayArt();
 
-	//CreateBoardPNG();
 
 	//std::getchar();
 

@@ -1,0 +1,461 @@
+10
+Cover 1 Box
+11
+CB2
+Man
+Standard
+(19,3)
+SS
+Zone
+Hole
+(4,5)
+EDGE2
+Pass Rush
+Standard
+(4,0)
+LB3
+Man
+Standard
+(9,4)
+ID2
+Pass Rush
+Standard
+(0,0)
+LB2
+Man
+Standard
+(-1,5)
+ID1
+Pass Rush
+Standard
+(-3,0)
+LB1
+Man
+Standard
+(-9,3)
+EDGE1
+Pass Rush
+Standard
+(-7,0)
+FS
+Zone
+PV_Deep Middle
+(0,15)
+CB1
+Man
+Standard
+(-19,3)
+Cover 1 Robber
+11
+CB2
+Man
+Standard
+(19,3)
+SS
+Zone
+Hole
+(6,15)
+EDGE2
+Pass Rush
+Standard
+(4,0)
+LB3
+Man
+Standard
+(7,4)
+ID2
+Pass Rush
+Standard
+(0,0)
+LB2
+Man
+Standard
+(-1,5)
+ID1
+Pass Rush
+Standard
+(-3,0)
+LB1
+Man
+Standard
+(-9,3)
+EDGE1
+Pass Rush
+Standard
+(-7,0)
+FS
+Zone
+Deep Middle
+(-9,15)
+CB1
+Man
+Standard
+(-19,3)
+Cover 2 Man
+11
+CB2
+Man
+Standard
+(19,3)
+SS
+Zone
+PV_Deep Half Right
+(7,15)
+EDGE2
+Pass Rush
+Standard
+(4,0)
+LB3
+Man
+Standard
+(8,3)
+ID2
+Pass Rush
+Standard
+(0,0)
+LB2
+Man
+Standard
+(-1,5)
+ID1
+Pass Rush
+Standard
+(-3,0)
+LB1
+Man
+Standard
+(-10,3)
+EDGE1
+Pass Rush
+Standard
+(-7,0)
+FS
+Zone
+PV_Deep Half Left
+(-9,15)
+CB1
+Man
+Standard
+(-19,3)
+Cover 2 Prevent
+11
+CB2
+Zone
+PV_Quarter Far Right
+(19,3)
+SS
+Zone
+Deep Half Right
+(7,20)
+EDGE2
+Pass Rush
+Standard
+(4,0)
+LB3
+Zone
+Curl Right
+(8,3)
+ID2
+Pass Rush
+Standard
+(0,0)
+LB2
+Zone
+Hole
+(-1,5)
+ID1
+Pass Rush
+Standard
+(-3,0)
+LB1
+Zone
+Curl Left
+(-10,3)
+EDGE1
+Pass Rush
+Standard
+(-7,0)
+FS
+Zone
+Deep Half Left
+(-9,20)
+CB1
+Zone
+PV_Quarter Far Left
+(-19,3)
+Cover 2
+11
+CB2
+Zone
+Flat Right
+(16,3)
+SS
+Zone
+PV_Deep Half Right
+(7,20)
+EDGE2
+Pass Rush
+Standard
+(4,0)
+LB3
+Zone
+Curl Right
+(3,5)
+ID2
+Pass Rush
+Standard
+(0,0)
+LB2
+Zone
+Hole
+(-1,5)
+ID1
+Pass Rush
+Standard
+(-3,0)
+LB1
+Zone
+Curl Left
+(-5,5)
+EDGE1
+Pass Rush
+Standard
+(-7,0)
+FS
+Zone
+PV_Deep Half Left
+(-9,20)
+CB1
+Zone
+Flat Left
+(-16,3)
+Cover 3 Cloud
+11
+CB2
+Zone
+PV_Deep Right
+(19,3)
+SS
+Zone
+PV_Deep Middle
+(4,5)
+EDGE2
+Pass Rush
+Standard
+(4,0)
+LB3
+Zone
+Out Right
+(9,4)
+ID2
+Pass Rush
+Standard
+(0,0)
+LB2
+Zone
+Hook Right
+(-1,5)
+ID1
+Pass Rush
+Standard
+(-3,0)
+LB1
+Zone
+Hook Left
+(-9,3)
+EDGE1
+Pass Rush
+Standard
+(-7,0)
+FS
+Zone
+PV_Deep Left
+(0,15)
+CB1
+Zone
+Out Left
+(-19,3)
+Cover 3 Sky
+11
+CB2
+Zone
+PV_Deep Right
+(19,3)
+SS
+Zone
+Hook Right
+(4,5)
+EDGE2
+Pass Rush
+Standard
+(4,0)
+LB3
+Zone
+Out Right
+(9,4)
+ID2
+Pass Rush
+Standard
+(0,0)
+LB2
+Zone
+Hook Left
+(-1,5)
+ID1
+Pass Rush
+Standard
+(-3,0)
+LB1
+Zone
+Out Left
+(-9,3)
+EDGE1
+Pass Rush
+Standard
+(-7,0)
+FS
+Zone
+PV_Deep Middle
+(0,15)
+CB1
+Zone
+PV_Deep Left
+(-19,3)
+Cover 4 Off
+11
+CB2
+Zone
+Quarter Far Right
+(19,8)
+SS
+Zone
+Quarter Close Right
+(7,20)
+EDGE2
+Pass Rush
+Standard
+(4,0)
+LB3
+Zone
+Curl Right
+(8,7)
+ID2
+Pass Rush
+Standard
+(0,0)
+LB2
+Zone
+Hole
+(-1,10)
+ID1
+Pass Rush
+Standard
+(-3,0)
+LB1
+Zone
+Curl Left
+(-10,7)
+EDGE1
+Pass Rush
+Standard
+(-7,0)
+FS
+Zone
+Quarter Close Left
+(-9,20)
+CB1
+Zone
+Quarter Far Left
+(-19,8)
+Cover 4
+11
+CB2
+Zone
+PV_Quarter Far Right
+(16,3)
+SS
+Zone
+PV_Deep Half Right
+(7,20)
+EDGE2
+Pass Rush
+Standard
+(4,0)
+LB3
+Zone
+Curl Right
+(3,5)
+ID2
+Pass Rush
+Standard
+(0,0)
+LB2
+Zone
+Hole
+(-1,5)
+ID1
+Pass Rush
+Standard
+(-3,0)
+LB1
+Zone
+Curl Left
+(-5,5)
+EDGE1
+Pass Rush
+Standard
+(-7,0)
+FS
+Zone
+PV_Deep Half Left
+(-9,20)
+CB1
+Zone
+PV_Quarter Far Left
+(-16,3)
+Cover 6
+11
+CB2
+Zone
+PV_Quarter Far Right
+(19,3)
+SS
+Zone
+PV_Quarter Close Right
+(7,20)
+EDGE2
+Pass Rush
+Standard
+(4,0)
+LB3
+Zone
+Curl Right
+(8,7)
+ID2
+Pass Rush
+Standard
+(0,0)
+LB2
+Zone
+Hole
+(-1,5)
+ID1
+Pass Rush
+Standard
+(-3,0)
+LB1
+Zone
+Curl Left
+(-10,7)
+EDGE1
+Pass Rush
+Standard
+(-7,0)
+FS
+Zone
+PV_Deep Half Left
+(-9,20)
+CB1
+Zone
+Flat Left
+(-19,3)

@@ -1,0 +1,61 @@
+30
+Curl Left
+(-12,10)
+Curl Right
+(12,10)
+Deep Half Left
+(-9,30)
+Deep Half Right
+(9,30)
+Deep Left
+(-18,30)
+Deep Middle
+(0,30)
+Deep Right
+(18,30)
+Delay Mid
+(0,4)
+Flat Left
+(-15,3)
+Flat Right
+(15,3)
+Hole
+(0,15)
+Hook Left
+(-4,10)
+Hook Right
+(4,10)
+Out Left
+(-20,10)
+Out Right
+(20,10)
+PV_Deep Half Left
+(-9,20)
+PV_Deep Half Right
+(9,20)
+PV_Deep Left
+(-18,20)
+PV_Deep Middle
+(0,20)
+PV_Deep Right
+(18,20)
+PV_Quarter Close Left
+(-5,20)
+PV_Quarter Close Right
+(5,20)
+PV_Quarter Far Left
+(-20,20)
+PV_Quarter Far Right
+(20,20)
+Quarter Close Left
+(-5,30)
+Quarter Close Right
+(5,30)
+Quarter Far Left
+(-20,30)
+Quarter Far Right
+(20,30)
+Swing Left
+(-14,-3)
+Swing Right
+(14,-4)

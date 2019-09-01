@@ -6,10 +6,9 @@
 
 #include "Globals.h"
 
-OffPlayHolder pHolder;
+OffPlayHolder OffensivePlays;
 RouteHolder rHolder;
 
-Graphic gField;
 Graphic gPlayer;
 Graphic gRouteBase;
 Graphic gRouteArrow;
@@ -17,13 +16,13 @@ Graphic gBlock;
 
 void PrintAllOffensivePlays()
 {
-	std::cout << "Num Plays Loaded: " << pHolder.numPlays << std::endl;
-	for (int i = 0; i < pHolder.numPlays; i++)
+	std::cout << "Num Plays Loaded: " << OffensivePlays.numPlays << std::endl;
+	for (int i = 0; i < OffensivePlays.numPlays; i++)
 	{
-		std::cout << "Name of Play: " << pHolder.aPlays[i].mName << std::endl;
-		for (int j = 0; j < pHolder.aPlays[i].numPlayers; j++)
+		std::cout << "Name of Play: " << OffensivePlays.aPlays[i].mName << std::endl;
+		for (int j = 0; j < OffensivePlays.aPlays[i].numPlayers; j++)
 		{
-			std::cout << "Tag: " << pHolder.aPlays[i].pRoles[j].mTag << " Role: " << pHolder.aPlays[i].pRoles[j].mRole << " Detail: " << pHolder.aPlays[i].pRoles[j].mDetail;
+			std::cout << "Tag: " << OffensivePlays.aPlays[i].pRoles[j].mTag << " Role: " << OffensivePlays.aPlays[i].pRoles[j].mRole << " Detail: " << OffensivePlays.aPlays[i].pRoles[j].mDetail;
 			std::cout << "\n";
 		}
 		std::cout << "\n\n";
@@ -68,7 +67,7 @@ void LoadImages(std::string path)
 
 void CreateAllOffPlayArt()
 {
-	for (int i = 0; i < pHolder.numPlays; i++)
+	for (int i = 0; i < OffensivePlays.numPlays; i++)
 	{
 		CreateOffensiveFieldPNG(i);
 	}
@@ -80,26 +79,26 @@ void CreateOffensiveFieldPNG(int ind)
 	ScaleApplyImage(&FINAL_PLAY, &gField.img, 0, 0, FINAL_PLAY.wd);
 
 	// let's see if we can place all the players in the right spot.
-	for (int i = 0; i < pHolder.aPlays[ind].numPlayers; i++)
+	for (int i = 0; i < OffensivePlays.aPlays[ind].numPlayers; i++)
 	{
 		// Start is relative to snap, which is always 25 yards in, and 40 yards deep.
-		Vec2 adjPos = pHolder.aPlays[ind].pRoles[i].mStart;
+		Vec2 adjPos = OffensivePlays.aPlays[ind].pRoles[i].mStart;
 		adjPos.x = (25 + adjPos.x) * 2;
 		adjPos.y = (40 - adjPos.y) * 2;			// y goes top to bottom
 
 		CenteredScaleApplyImage(&FINAL_PLAY, &gPlayer.img, adjPos.x, adjPos.y, 5);
 
 		// Now we also have to render their assignments.
-		if (pHolder.aPlays[ind].pRoles[i].mRole == "Route") {
-			RenderRoute(pHolder.aPlays[ind].pRoles[i].mDetail, adjPos);
+		if (OffensivePlays.aPlays[ind].pRoles[i].mRole == "Route") {
+			RenderRoute(OffensivePlays.aPlays[ind].pRoles[i].mDetail, adjPos);
 		}
-		else if (pHolder.aPlays[ind].pRoles[i].mRole == "Pass Block") {
+		else if (OffensivePlays.aPlays[ind].pRoles[i].mRole == "Pass Block") {
 			CenteredScaleApplyImage(&FINAL_PLAY, &gBlock.img, adjPos.x, adjPos.y + 2, 2);
 		}
 	}
 
 	//ScaleApplyImage(&FINAL_PLAY, &gPlayer.img, 50, 50, 10);
-	std::string sName = "PlayArt/" + pHolder.aPlays[ind].mName + ".png";
+	std::string sName = "PlayArt/" + OffensivePlays.aPlays[ind].mName + ".png";
 	WriteImage(FINAL_PLAY, sName);
 }
 
@@ -196,29 +195,29 @@ bool LoadOffensivePlays(std::string filePath)
 	std::string str;
 	std::getline(file, str);
 	int numPlays = std::stoi(str);
-	pHolder.aPlays = new DATA_Off_Play[numPlays];
-	pHolder.numPlays = numPlays;
+	OffensivePlays.aPlays = new DATA_Off_Play[numPlays];
+	OffensivePlays.numPlays = numPlays;
 	for (int i = 0; i < numPlays; i++)
 	{
 		std::getline(file, str);
-		pHolder.aPlays[i].mName = str;
+		OffensivePlays.aPlays[i].mName = str;
 
 		// now here's where we have to format this stuff.
 		std::getline(file, str);
 		int numJobs = std::stoi(str);
-		pHolder.aPlays[i].numPlayers = numJobs;
-		pHolder.aPlays[i].pRoles = new DATA_PlayRole[numJobs];
+		OffensivePlays.aPlays[i].numPlayers = numJobs;
+		OffensivePlays.aPlays[i].pRoles = new DATA_PlayRole[numJobs];
 
 		for (int j = 0; j < numJobs; j++)
 		{
 			std::getline(file, str);
-			pHolder.aPlays[i].pRoles[j].mTag = str;
+			OffensivePlays.aPlays[i].pRoles[j].mTag = str;
 			std::getline(file, str);
-			pHolder.aPlays[i].pRoles[j].mRole = str;
+			OffensivePlays.aPlays[i].pRoles[j].mRole = str;
 			std::getline(file, str);
-			pHolder.aPlays[i].pRoles[j].mDetail = str;
+			OffensivePlays.aPlays[i].pRoles[j].mDetail = str;
 			std::getline(file, str);
-			pHolder.aPlays[i].pRoles[j].mStart = GetVecFromString(str);
+			OffensivePlays.aPlays[i].pRoles[j].mStart = GetVecFromString(str);
 		}
 	}
 

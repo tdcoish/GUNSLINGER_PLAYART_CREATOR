@@ -121,11 +121,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Blit.cpp" />
+    <ClCompile Include="DefensivePlays.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="OffensivePlays.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Blit.h" />
+    <ClInclude Include="DefensivePlays.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="OffensivePlays.h" />
     <ClInclude Include="Structs.h" />

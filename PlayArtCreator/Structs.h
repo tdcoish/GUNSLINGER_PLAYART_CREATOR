@@ -30,6 +30,16 @@ struct Vec2 {
 	}
 };
 
+struct DATA_Zone {
+	std::string mName;
+	Vec2 mSpot;
+};
+
+struct ZoneHolder{
+	int numZones;
+	DATA_Zone* aZones;
+};
+
 struct DATA_Route {
 	std::string mName;
 	int numSpots;
@@ -54,7 +64,18 @@ struct DATA_Off_Play {
 	DATA_PlayRole*			pRoles;
 };
 
+struct DATA_Def_Play {
+	std::string				mName;
+	int						numPlayers;
+	DATA_PlayRole*			pRoles;
+};
+
 struct OffPlayHolder {
 	int						numPlays;
 	DATA_Off_Play*			aPlays;
+};
+
+struct DefPlayHolder {
+	int						numPlays;
+	DATA_Def_Play*			aPlays;
 };

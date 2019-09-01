@@ -3,10 +3,9 @@
 #include "Structs.h"
 #include "Blit.h"
 
-extern OffPlayHolder pHolder;
+extern OffPlayHolder OffensivePlays;
 extern RouteHolder rHolder;
 
-extern Graphic gField;
 extern Graphic gPlayer;
 extern Graphic gRouteBase;
 extern Graphic gRouteArrow;

@@ -24,6 +24,9 @@
     <ClCompile Include="OffensivePlays.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DefensivePlays.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Blit.h">
@@ -36,6 +39,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Globals.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DefensivePlays.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
