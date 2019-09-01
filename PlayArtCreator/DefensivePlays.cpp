@@ -10,7 +10,8 @@ ZoneHolder ZoneList;
 DefPlayHolder DefPlayList;
 
 Graphic gDefender;
-Graphic gZone;
+Graphic gDeepZone;
+Graphic gShortZone;
 
 bool LoadZones(std::string filePath)
 {
@@ -94,6 +95,12 @@ void LoadDefGraphics(std::string path)
 {
 	gDefender.type = "Defender";
 	LoadImage(&gDefender.img, path + "\\Defender.png");
+
+	gShortZone.type = "Short Zone";
+	LoadImage(&gShortZone.img, path + "\\ShortZone.png");
+
+	gDeepZone.type = "Deep Zone";
+	LoadImage(&gDeepZone.img, path + "\\DeepZone.png");
 }
 
 void CreateAllDefensivePlayArt()
@@ -101,6 +108,36 @@ void CreateAllDefensivePlayArt()
 	for (int i = 0; i < DefPlayList.numPlays; i++)
 	{
 		CreateDefensiveFieldPNG(i);
+	}
+}
+
+// Actually, we might not need the name, at least not yet.
+// Nevermind, all we need is the name, do everything else in here.
+void RenderZone(std::string sName)
+{
+	Vec2 zSpot;
+	for (int i = 0; i < ZoneList.numZones; i++)
+	{
+		if (ZoneList.aZones[i].mName == sName) {
+			zSpot = ZoneList.aZones[i].mSpot;
+			break;
+		}
+	}
+
+	// Now we have to figure out where on the screen that becomes.
+	Vec2 screenSpot;
+	screenSpot.x = zSpot.x + 25; screenSpot.y = 40 - zSpot.y;
+
+	screenSpot.x *= 2;
+	screenSpot.y *= 2;
+
+	if (zSpot.y > 10)
+	{
+		CenteredScaleApplyImage(&FINAL_PLAY, &gDeepZone.img, screenSpot.x, screenSpot.y, 15);
+	}
+	else
+	{
+		CenteredScaleApplyImage(&FINAL_PLAY, &gShortZone.img, screenSpot.x, screenSpot.y, 5);
 	}
 }
 
@@ -118,6 +155,11 @@ void CreateDefensiveFieldPNG(int ind)
 		adjPos.y = (40 - adjPos.y) * 2;			// y goes top to bottom
 
 		CenteredScaleApplyImage(&FINAL_PLAY, &gDefender.img, adjPos.x, adjPos.y, 5);
+
+		if (DefPlayList.aPlays[ind].pRoles[i].mRole == "Zone")
+		{
+			RenderZone(DefPlayList.aPlays[ind].pRoles[i].mDetail);
+		}
 
 		//// Now we also have to render their assignments.
 		//if (DefPlayList.aPlays[ind].pRoles[i].mRole == "Route") {

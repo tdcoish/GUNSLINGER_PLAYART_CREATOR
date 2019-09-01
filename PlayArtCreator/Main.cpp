@@ -84,7 +84,7 @@ int main(int args, char** argc)
 
 	// Finally, the time has come to actually print out the play art.
 	//CreateAllOffPlayArt();
-	//CreateAllDefensivePlayArt();
+	CreateAllDefensivePlayArt();
 
 
 	//std::getchar();
