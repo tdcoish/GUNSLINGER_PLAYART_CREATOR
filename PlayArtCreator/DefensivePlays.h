@@ -10,6 +10,8 @@ extern Graphic gDefender;
 extern Graphic gDeepZone;
 extern Graphic gShortZone;
 extern Graphic gZoneTrail;
+extern Graphic gMan;
+extern Graphic gRush;
 
 bool LoadZones(std::string filePath);
 bool LoadDefensivePlays(std::string filePath);

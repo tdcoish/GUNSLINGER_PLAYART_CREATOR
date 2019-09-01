@@ -13,6 +13,8 @@ Graphic gDefender;
 Graphic gDeepZone;
 Graphic gShortZone;
 Graphic gZoneTrail;
+Graphic gMan;
+Graphic gRush;
 
 bool LoadZones(std::string filePath)
 {
@@ -105,6 +107,12 @@ void LoadDefGraphics(std::string path)
 
 	gZoneTrail.type = "Zone Trail";
 	LoadImage(&gZoneTrail.img, path + "\\ZoneTrail.png");
+
+	gMan.type = "Man";
+	LoadImage(&gMan.img, path + "\\Man.png");
+
+	gRush.type = "Pass Rush";
+	LoadImage(&gRush.img, path + "\\Rush.png");
 }
 
 void CreateAllDefensivePlayArt()
@@ -174,6 +182,12 @@ void CreateDefensiveFieldPNG(int ind)
 		{
 			RenderZone(DefPlayList.aPlays[ind].pRoles[i].mDetail, adjPos);
 		}
+		else if (DefPlayList.aPlays[ind].pRoles[i].mRole == "Man") {
+			CenteredScaleApplyImage(&FINAL_PLAY, &gMan.img, adjPos.x, adjPos.y + 4, 2);
+		}
+		else if (DefPlayList.aPlays[ind].pRoles[i].mRole == "Pass Rush") {
+			CenteredScaleApplyImage(&FINAL_PLAY, &gRush.img, adjPos.x, adjPos.y + 4, 2);
+		}
 
 		// Render the players themselves last.
 		CenteredScaleApplyImage(&FINAL_PLAY, &gDefender.img, adjPos.x, adjPos.y, 5);
@@ -190,7 +204,6 @@ void CreateDefensiveFieldPNG(int ind)
 	std::string sName = "PlayArt/Defense/" + DefPlayList.aPlays[ind].mName + ".png";
 	WriteImage(FINAL_PLAY, sName);
 }
-
 
 
 
