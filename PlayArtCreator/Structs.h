@@ -65,6 +65,7 @@ struct DATA_Off_Play {
 };
 
 struct DATA_Off_Formation {
+	int						mNumPlayers;
 	std::string				mName;
 	std::string*			aTags;
 	Vec2*					aSpots;

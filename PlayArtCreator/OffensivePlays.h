@@ -4,7 +4,6 @@
 #include "Blit.h"
 
 extern OffPlayHolder OffensivePlays;
-extern OffFormationHolder rFormationHolder;
 extern RouteHolder rHolder;
 
 extern Graphic gPlayer;
@@ -13,7 +12,8 @@ extern Graphic gRouteArrow;
 extern Graphic gBlock;
 
 bool LoadRoutes(RouteHolder* pRouteHolder, std::string filePath);
-bool LoadOffensiveFormations(std::string filePath);
+OffFormationHolder LoadOffensiveFormations(std::string filePath);
+DATA_Off_Formation LoadFormationFromFile(std::string filePath);
 
 bool LoadOffensivePlays(std::string filePath);
 

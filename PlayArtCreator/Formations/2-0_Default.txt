@@ -1,0 +1,27 @@
+NAME
+2-0_Default
+NUM PLAYERS
+11
+POSITIONS AND TAGS
+QB
+(0,4)
+WR3
+(-10,0)
+WR2
+(12,0)
+OL5
+(4,0)
+OL4
+(2,0)
+OL3
+(0,0)
+OL2
+(-2,0)
+RB2
+(2,4)
+WR1
+(8,2)
+OL1
+(-4,0)
+RB1
+(-2,4)

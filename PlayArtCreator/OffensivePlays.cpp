@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <vector>
 #include <filesystem>
 #include "OffensivePlays.h"
 #include "Structs.h"
@@ -203,24 +204,88 @@ Alrighty now! There are two seperate problems here.
 1) Get some way of loading in all the text files individually.
 2) Read the data from the individual text file into the formation struct.
 **********************************************************************************/
-bool LoadOffensiveFormations(std::string filePath)
+OffFormationHolder LoadOffensiveFormations(std::string directoryPath)
 {
+	// First iterate through, getting the number of plays. 
+	int numFormations = 0;
 	// ooooooohhhhhh. experimental! Fancy!
-	for (const auto & entry : std::experimental::filesystem::directory_iterator(filePath)) {
-		std::cout << entry.path() << std::endl;
+	for (const auto & entry : std::experimental::filesystem::directory_iterator(directoryPath)) {
 		std::string filePath = entry.path().string();
 		if (filePath[(filePath.length() - 1)] == 'a') {
 			std::cout << "This is a meta file" << std::endl;
 		}
-		std::ifstream file(entry.path());
-		std::string str;
-		std::getline(file, str);
-
-		std::cout << "The first line: " + str << std::endl;
+		else {
+			numFormations++;
+		}
 	}
 
-	return false;
+	// Now we actually store those plays.
+	OffFormationHolder holder;
+	holder.numFormations = numFormations;
+	holder.aFormations = new DATA_Off_Formation[numFormations];
+	int ix = 0;
+	for (const auto & entry : std::experimental::filesystem::directory_iterator(directoryPath)) {
+		//std::cout << entry.path() << std::endl;
+		std::string filePath = entry.path().string();
+		if (filePath[(filePath.length() - 1)] == 't') {
+			holder.aFormations[ix] = LoadFormationFromFile(filePath);
+			ix++;
+		}
+	}
+
+	return holder;
 }
+
+// Yes, you can return from the stack. This results in a copy being made into the waiting object.
+DATA_Off_Formation LoadFormationFromFile(std::string filePath)
+{
+	std::ifstream file(filePath);
+	std::string str;
+	std::vector<std::string> vOfStrings;
+
+	while (std::getline(file, str)) {
+		if (str.size() > 0) {
+			vOfStrings.push_back(str);
+		}
+	}
+
+	for (int i = 0; i < vOfStrings.size(); i++) {
+		//std::cout << vOfStrings[i] << std::endl;
+	}
+
+	DATA_Off_Formation f;
+	// It's safer to first allocate any memory for the size of players/tags.
+	for (int i = 0; i < vOfStrings.size(); i++) {
+		if (vOfStrings[i].find("NUM PLAYERS") != std::string::npos) {
+			f.mNumPlayers = std::stoi(vOfStrings[i + 1]);
+			std::cout << "Number of players: " << f.mNumPlayers << std::endl;
+			f.aSpots = new Vec2[f.mNumPlayers];
+			f.aTags = new std::string[f.mNumPlayers];
+		}
+	}
+	// Now we can safely allocate data into our formation.
+	for (int i = 0; i < vOfStrings.size(); i++)
+	{
+		if (vOfStrings[i].find("NAME") != std::string::npos) {
+			f.mName = vOfStrings[i + 1];
+			std::cout << "Name: " << f.mName << std::endl;
+		}
+
+		if (vOfStrings[i].find("POSITIONS AND ") != std::string::npos) {
+			int ix = i + 1;
+			for (int j = 0; j < f.mNumPlayers; j++)
+			{
+				f.aTags[j] = vOfStrings[ix++];
+				f.aSpots[j] = GetVecFromString(vOfStrings[ix++]);
+				std::cout << f.aTags[j] << std::endl;
+			}
+		}
+
+	}
+
+	return f;
+}
+
 
 bool LoadOffensivePlays(std::string filePath)
 {
