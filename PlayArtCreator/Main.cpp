@@ -19,18 +19,13 @@ Alright, parts of this program.
 #include <cstdlib>
 #include "time.h"
 #include <string>
+#include <Windows.h>
 
 #include "Globals.h"
 #include "Blit.h"
 #include "Structs.h"
 #include "OffensivePlays.h"
 #include "DefensivePlays.h"
-
-
-std::string bsPth = "C:/Users/Timothy/Documents/Visual Studio 2017/Projects/PlayArtCreator/GUNSLINGER_PLAYART_CREATOR/PlayArtCreator";
-std::string imgPath(bsPth + "/Graphics");
-std::string formPth(bsPth + "/Formations");
-std::string offPlayPth(bsPth + "/OffensivePlays");
 
 Image FINAL_PLAY;
 Graphic gField;
@@ -62,6 +57,15 @@ std::string ConvertVecToString(Vec2 v)
 
 int main(int args, char** argc)
 {
+	char pathCharArray[MAX_PATH];
+	int n = GetModuleFileName(NULL, pathCharArray, MAX_PATH);
+	std::string exePath(pathCharArray);
+	std::cout << "EXE PATH: " << exePath << std::endl;
+
+	std::string bsPth = "C:/Users/Timothy/Documents/Visual Studio 2017/Projects/PlayArtCreator/GUNSLINGER_PLAYART_CREATOR/PlayArtCreator";
+	std::string imgPath(bsPth + "/Graphics");
+	std::string formPth(bsPth + "/Formations");
+	std::string offPlayPth(bsPth + "/OffensivePlays");
 	std::cout << "Base Path: " << bsPth << std::endl;
 
 	CreateImage(&FINAL_PLAY, PLAY_SIZE_PIXELS);
@@ -93,8 +97,10 @@ int main(int args, char** argc)
 	// Finally, the time has come to actually print out the play art.
 	//CreateAllDefensivePlayArt();
 
+	//std::cout << argc[0];
 
-	//std::getchar();
+
+	std::getchar();
 
 	return 0;
 }
