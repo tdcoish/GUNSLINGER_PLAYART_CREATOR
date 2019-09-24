@@ -11,7 +11,6 @@ extern Graphic gRouteBase;
 extern Graphic gRouteArrow;
 extern Graphic gBlock;
 
-bool LoadRoutes(RouteHolder* pRouteHolder, std::string filePath);
 OffFormationHolder LoadOffensiveFormations(std::string directoryPath);
 DATA_Off_Formation LoadFormationFromFile(std::string filePath);
 
@@ -24,14 +23,12 @@ DATA_Off_Route GetRouteFromPlayTag(std::string owner, std::string playName, OffP
 void LoadImages(std::string path);
 
 void CreateAllOffPlayArt(OffPlayHolder plays, OffFormationHolder formations);
-void CreateOffensiveFieldPNG(int ind);
 
 void PrintAllRoutes();
 
 void PrintAllFormations(OffFormationHolder holder);
 void PrintAllOffensivePlays(OffPlayHolder holder);
 
-void RenderRouteOld(std::string name, Vec2 vStart);
 void RenderRoute(Vec2 vStart, DATA_Off_Route route);
 
 //bool LoadOffensivePlays(std::string filePath);

@@ -82,21 +82,14 @@ int main(int args, char** argc)
 	offPlayHolder = LoadOffensivePlays(offPlayPth);
 	PrintAllOffensivePlays(offPlayHolder);
 	CreateAllOffPlayArt(offPlayHolder, offFormHolder);
-	
-	LoadRoutes(&rHolder, bsPth+"/routes.txt");
-	//LoadOffensivePlays(bsPth + "/plays.txt");
 
 	LoadZones(bsPth + "/zones.txt");
 	LoadDefensivePlays(bsPth + "/defPlays.txt");
 
-
-	//PrintAllRoutes();
-	//PrintAllPlays();
 	//PrintAllZones();
 	//PrintAllDefensivePlays();
 
 	// Finally, the time has come to actually print out the play art.
-	//CreateAllOffPlayArt();
 	CreateAllDefensivePlayArt();
 
 
