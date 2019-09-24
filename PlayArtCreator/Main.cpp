@@ -77,10 +77,13 @@ int main(int args, char** argc)
 	for (int i = 0; i < offFormHolder.numFormations; i++) {
 		std::cout << "Formation Name: " << offFormHolder.aFormations[i].mName << std::endl;
 	}
-	
 
+	OffPlayHolder offPlayHolder;
+	offPlayHolder = LoadOffensivePlays(offPlayPth);
+	PrintAllOffensivePlays(offPlayHolder);
+	
 	LoadRoutes(&rHolder, bsPth+"/routes.txt");
-	LoadOffensivePlays(bsPth + "/plays.txt");
+	//LoadOffensivePlays(bsPth + "/plays.txt");
 
 	LoadZones(bsPth + "/zones.txt");
 	LoadDefensivePlays(bsPth + "/defPlays.txt");

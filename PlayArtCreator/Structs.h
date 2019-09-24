@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <list>
 
 struct Vec2 {
 	int x, y;
@@ -58,10 +59,20 @@ struct DATA_PlayRole {
 	Vec2					mStart;
 };
 
+struct DATA_Off_Route {
+	std::string				mOwner;
+	int						mNumSpots;
+	Vec2*					mSpots;
+};
+
 struct DATA_Off_Play {
 	std::string				mName;
-	int						numPlayers;
-	DATA_PlayRole*			pRoles;
+	std::string				mFormation;
+	int						mNumReceivers;
+	int						mNumPlayers;
+	std::string*			aTags;
+	std::string*			aRoles;
+	DATA_Off_Route*			aRoutes;
 };
 
 struct DATA_Off_Formation {
@@ -78,7 +89,7 @@ struct DATA_Def_Play {
 };
 
 struct OffPlayHolder {
-	int						numPlays;
+	int						mNumPlays;
 	DATA_Off_Play*			aPlays;
 };
 

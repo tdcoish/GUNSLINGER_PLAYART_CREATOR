@@ -24,22 +24,6 @@ Graphic gRouteBase;
 Graphic gRouteArrow;
 Graphic gBlock;
 
-void PrintAllOffensivePlays()
-{
-	std::cout << "Num Plays Loaded: " << OffensivePlays.numPlays << std::endl;
-	for (int i = 0; i < OffensivePlays.numPlays; i++)
-	{
-		std::cout << "Name of Play: " << OffensivePlays.aPlays[i].mName << std::endl;
-		for (int j = 0; j < OffensivePlays.aPlays[i].numPlayers; j++)
-		{
-			std::cout << "Tag: " << OffensivePlays.aPlays[i].pRoles[j].mTag << " Role: " << OffensivePlays.aPlays[i].pRoles[j].mRole << " Detail: " << OffensivePlays.aPlays[i].pRoles[j].mDetail;
-			std::cout << "\n";
-		}
-		std::cout << "\n\n";
-	}
-
-}
-
 void PrintAllRoutes()
 {
 	std::cout << "Num Routes loaded: " << rHolder.numRoutes << std::endl;
@@ -53,6 +37,31 @@ void PrintAllRoutes()
 
 		std::cout << std::endl;
 	}
+}
+
+void PrintAllOffensivePlays(OffPlayHolder holder)
+{
+	std::cout << "Num Plays: " << holder.mNumPlays << std::endl;
+	std::cout << "-------------------------------------------\n";
+
+	for (int i = 0; i < holder.mNumPlays; i++) {
+		std::cout << "Name: " << holder.aPlays[i].mName << std::endl;
+		std::cout << "Formation: " << holder.aPlays[i].mFormation << std::endl;
+		std::cout << "Num Players: " << holder.aPlays[i].mNumPlayers << std::endl;
+		for (int j = 0; j < holder.aPlays[i].mNumPlayers; j++) {
+			std::cout << "Tag: " << holder.aPlays[i].aTags[j] << ", Job: " << holder.aPlays[i].aRoles[j] << std::endl;
+		}
+		std::cout << "Num Receivers: " << holder.aPlays[i].mNumReceivers << std::endl;
+		for (int j = 0; j < holder.aPlays[i].mNumReceivers; j++) {
+			std::cout << "Owner: " << holder.aPlays[i].aRoutes[j].mOwner;
+			for (int k = 0; k < holder.aPlays[i].aRoutes[j].mNumSpots; k++) {
+				std::cout << ConvertVecToString(holder.aPlays[i].aRoutes[j].mSpots[k]) << ", ";
+			}
+			std::cout << "\n";
+		}
+
+	}
+
 }
 
 //Loads the specific images that we need
@@ -75,42 +84,42 @@ void LoadImages(std::string path)
 }
 
 
-void CreateAllOffPlayArt()
-{
-	for (int i = 0; i < OffensivePlays.numPlays; i++)
-	{
-		CreateOffensiveFieldPNG(i);
-	}
-}
+//void CreateAllOffPlayArt()
+//{
+//	for (int i = 0; i < OffensivePlays.numPlays; i++)
+//	{
+//		CreateOffensiveFieldPNG(i);
+//	}
+//}
 
-// I know that the play art field is 500x500, although I can do the math.
-void CreateOffensiveFieldPNG(int ind)
-{
-	ScaleApplyImage(&FINAL_PLAY, &gField.img, 0, 0, FINAL_PLAY.wd);
-
-	// let's see if we can place all the players in the right spot.
-	for (int i = 0; i < OffensivePlays.aPlays[ind].numPlayers; i++)
-	{
-		// Start is relative to snap, which is always 25 yards in, and 40 yards deep.
-		Vec2 adjPos = OffensivePlays.aPlays[ind].pRoles[i].mStart;
-		adjPos.x = (25 + adjPos.x) * 2;
-		adjPos.y = (40 - adjPos.y) * 2;			// y goes top to bottom
-
-		CenteredScaleApplyImage(&FINAL_PLAY, &gPlayer.img, adjPos.x, adjPos.y, 5);
-
-		// Now we also have to render their assignments.
-		if (OffensivePlays.aPlays[ind].pRoles[i].mRole == "Route") {
-			RenderRoute(OffensivePlays.aPlays[ind].pRoles[i].mDetail, adjPos);
-		}
-		else if (OffensivePlays.aPlays[ind].pRoles[i].mRole == "Pass Block") {
-			CenteredScaleApplyImage(&FINAL_PLAY, &gBlock.img, adjPos.x, adjPos.y + 2, 2);
-		}
-	}
-
-	//ScaleApplyImage(&FINAL_PLAY, &gPlayer.img, 50, 50, 10);
-	std::string sName = "PlayArt/" + OffensivePlays.aPlays[ind].mName + ".png";
-	WriteImage(FINAL_PLAY, sName);
-}
+//// I know that the play art field is 500x500, although I can do the math.
+//void CreateOffensiveFieldPNG(int ind)
+//{
+//	ScaleApplyImage(&FINAL_PLAY, &gField.img, 0, 0, FINAL_PLAY.wd);
+//
+//	// let's see if we can place all the players in the right spot.
+//	for (int i = 0; i < OffensivePlays.aPlays[ind].numPlayers; i++)
+//	{
+//		// Start is relative to snap, which is always 25 yards in, and 40 yards deep.
+//		Vec2 adjPos = OffensivePlays.aPlays[ind].pRoles[i].mStart;
+//		adjPos.x = (25 + adjPos.x) * 2;
+//		adjPos.y = (40 - adjPos.y) * 2;			// y goes top to bottom
+//
+//		CenteredScaleApplyImage(&FINAL_PLAY, &gPlayer.img, adjPos.x, adjPos.y, 5);
+//
+//		// Now we also have to render their assignments.
+//		if (OffensivePlays.aPlays[ind].pRoles[i].mRole == "Route") {
+//			RenderRoute(OffensivePlays.aPlays[ind].pRoles[i].mDetail, adjPos);
+//		}
+//		else if (OffensivePlays.aPlays[ind].pRoles[i].mRole == "Pass Block") {
+//			CenteredScaleApplyImage(&FINAL_PLAY, &gBlock.img, adjPos.x, adjPos.y + 2, 2);
+//		}
+//	}
+//
+//	//ScaleApplyImage(&FINAL_PLAY, &gPlayer.img, 50, 50, 10);
+//	std::string sName = "PlayArt/" + OffensivePlays.aPlays[ind].mName + ".png";
+//	WriteImage(FINAL_PLAY, sName);
+//}
 
 /******************************************************************
 Ultimately the solution is to render stretched and rotated graphics, but
@@ -286,47 +295,97 @@ DATA_Off_Formation LoadFormationFromFile(std::string filePath)
 	return f;
 }
 
-
-bool LoadOffensivePlays(std::string filePath)
+OffPlayHolder LoadOffensivePlays(std::string directoryPath)
 {
-	std::ifstream file("plays.txt");
-	std::string str;
-	std::getline(file, str);
-	int numPlays = std::stoi(str);
-	OffensivePlays.aPlays = new DATA_Off_Play[numPlays];
-	OffensivePlays.numPlays = numPlays;
-	for (int i = 0; i < numPlays; i++)
-	{
-		std::getline(file, str);
-		OffensivePlays.aPlays[i].mName = str;
-
-		// now here's where we have to format this stuff.
-		std::getline(file, str);
-		int numJobs = std::stoi(str);
-		OffensivePlays.aPlays[i].numPlayers = numJobs;
-		OffensivePlays.aPlays[i].pRoles = new DATA_PlayRole[numJobs];
-
-		for (int j = 0; j < numJobs; j++)
-		{
-			std::getline(file, str);
-			OffensivePlays.aPlays[i].pRoles[j].mTag = str;
-			std::getline(file, str);
-			OffensivePlays.aPlays[i].pRoles[j].mRole = str;
-			std::getline(file, str);
-			OffensivePlays.aPlays[i].pRoles[j].mDetail = str;
-			std::getline(file, str);
-			OffensivePlays.aPlays[i].pRoles[j].mStart = GetVecFromString(str);
+	int numPlays = 0;
+	for (const auto & entry : std::experimental::filesystem::directory_iterator(directoryPath)) {
+		std::string filePath = entry.path().string();
+		if (filePath[(filePath.length() - 1)] != 'a') {
+			numPlays++;
 		}
 	}
 
-	return false;
+	OffPlayHolder holder;
+	holder.mNumPlays = numPlays;
+	holder.aPlays = new DATA_Off_Play[numPlays];
+	int ix = 0;
+	for (const auto & entry : std::experimental::filesystem::directory_iterator(directoryPath)) {
+		std::cout << entry.path() << std::endl;
+		std::string filePath = entry.path().string();
+		if (filePath[(filePath.length() - 1)] == 't') {
+			holder.aPlays[ix] = LoadOffensivePlayFromFile(filePath);
+			ix++;
+		}
+	}
+
+	return holder;
 }
 
-//bool LoadOffensivePlays(std::string filePath, bool second)
-//{
-//
-//	return false;
-//}
+DATA_Off_Play LoadOffensivePlayFromFile(std::string filePath)
+{
+	std::ifstream file(filePath);
+	std::string str;
+	std::vector<std::string> vOfStrings;
+
+	while (std::getline(file, str)) {
+		if (str.size() > 0) {
+			vOfStrings.push_back(str);
+		}
+	}
+
+	DATA_Off_Play p;
+	// It's safer to first allocate any memory for the size of players/tags.
+	// Also for the number of "routes"
+	for (int i = 0; i < vOfStrings.size(); i++) {
+		if (vOfStrings[i].find("NUM PLAYERS") != std::string::npos) {
+			p.mNumPlayers = std::stoi(vOfStrings[i + 1]);
+			p.aRoles = new std::string[p.mNumPlayers];
+			p.aTags = new std::string[p.mNumPlayers];
+		}
+
+		if (vOfStrings[i].find("NUM REC") != std::string::npos) {
+			p.mNumReceivers = std::stoi(vOfStrings[i + 1]);
+			p.aRoutes = new DATA_Off_Route[p.mNumReceivers];
+		}
+	}
+
+	// Now we can safely allocate data into our play.
+	for (int i = 0; i < vOfStrings.size(); i++)
+	{
+		if (vOfStrings[i].find("NAME") != std::string::npos) {
+			p.mName = vOfStrings[i + 1];
+		}
+
+		if (vOfStrings[i].find("FORMA") != std::string::npos) {
+			p.mFormation = vOfStrings[i + 1];
+		}
+
+		if (vOfStrings[i].find("NUM PLAYERS") != std::string::npos) {
+			int ix = i + 2;
+			for (int j = 0; j < p.mNumPlayers; j++)
+			{
+				p.aTags[j] = vOfStrings[ix++];
+				p.aRoles[j] = vOfStrings[ix++];
+			}
+		}
+
+		if (vOfStrings[i].find("ROUTES") != std::string::npos) {
+			int ix = i + 1;
+			for (int j = 0; j < p.mNumReceivers; j++) {
+				p.aRoutes[j].mOwner = vOfStrings[ix++];
+				ix++;
+				p.aRoutes[j].mNumSpots = std::stoi(vOfStrings[ix++]);
+				p.aRoutes[j].mSpots = new Vec2[p.aRoutes[j].mNumSpots];
+				for (int k = 0; k < p.aRoutes[j].mNumSpots; k++) {
+					p.aRoutes[j].mSpots[k] = GetVecFromString(vOfStrings[ix++]);
+				}
+			}
+		}
+
+	}
+	
+	return p;
+}
 
 
 
