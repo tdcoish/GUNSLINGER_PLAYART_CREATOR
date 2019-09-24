@@ -19,6 +19,7 @@ Vec2 GetStartingPositionFromFormation(std::string tag, std::string formation, Of
 
 OffPlayHolder LoadOffensivePlays(std::string directoryPath);
 DATA_Off_Play LoadOffensivePlayFromFile(std::string filePath);
+DATA_Off_Route GetRouteFromPlayTag(std::string owner, std::string playName, OffPlayHolder plays);
 
 void LoadImages(std::string path);
 
@@ -30,6 +31,7 @@ void PrintAllRoutes();
 void PrintAllFormations(OffFormationHolder holder);
 void PrintAllOffensivePlays(OffPlayHolder holder);
 
-void RenderRoute(std::string name, Vec2 vStart);
+void RenderRouteOld(std::string name, Vec2 vStart);
+void RenderRoute(Vec2 vStart, DATA_Off_Route route);
 
 //bool LoadOffensivePlays(std::string filePath);

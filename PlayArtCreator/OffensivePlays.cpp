@@ -22,6 +22,7 @@ RouteHolder rHolder;
 Graphic gPlayer;
 Graphic gRouteBase;
 Graphic gRouteArrow;
+Graphic gReceiver;
 Graphic gBlock;
 
 void PrintAllRoutes()
@@ -95,13 +96,62 @@ void CreateAllOffPlayArt(OffPlayHolder plays, OffFormationHolder formations)
 			// Now we need to shove into the center.
 			vStart.x += 50; vStart.y += 50;
 			
-			CenteredScaleApplyImage(&FINAL_PLAY, &gBlock.img, vStart.x, vStart.y + 2, 2);
+			if (plays.aPlays[i].aRoles[j] == "QB") {
+				CenteredScaleApplyImage(&FINAL_PLAY, &gPlayer.img, vStart.x, vStart.y + 2, 4);
+			}
+			else if (plays.aPlays[i].aRoles[j] == "BLOCK") {
+				CenteredScaleApplyImage(&FINAL_PLAY, &gBlock.img, vStart.x, vStart.y + 2, 4);
+			}
+			else if (plays.aPlays[i].aRoles[j] == "ROUTE") {
+				CenteredScaleApplyImage(&FINAL_PLAY, &gReceiver.img, vStart.x, vStart.y + 2, 4);
+				RenderRoute(vStart, GetRouteFromPlayTag(plays.aPlays[i].aTags[j], plays.aPlays[i].mName, plays));
+			}
 		}
 
 
 
 		std::string sName = "PlayArt/Offense/" + plays.aPlays[i].mName + ".png";
 		WriteImage(FINAL_PLAY, sName);
+	}
+}
+
+// Shove in WR1, for a given play, and you should get the route data.
+DATA_Off_Route GetRouteFromPlayTag(std::string tag, std::string playName, OffPlayHolder plays)
+{
+	for (int i = 0; i < plays.mNumPlays; i++) {
+		if (plays.aPlays[i].mName == playName) {
+			for (int j = 0; j < plays.aPlays[i].mNumReceivers; j++) {
+				if (plays.aPlays[i].aRoutes[j].mOwner == tag) {
+					return plays.aPlays[i].aRoutes[j];
+				}
+			}
+		}
+	}
+
+	DATA_Off_Route r; 
+	r.mOwner = "NO_ONE";
+	return r;
+}
+
+void RenderRoute(Vec2 vStart, DATA_Off_Route route)
+{
+	for (int i = 1; i < route.mNumSpots; i++)
+	{
+		Vec2 v1 = route.mSpots[i-1];
+		v1 = v1 * 2;
+		v1.x += vStart.x; v1.y += vStart.y;
+		Vec2 v2 = route.mSpots[i];
+		v2 = v2 * 2;
+		v2.x += vStart.x; v2.y += vStart.y;
+		
+		Vec2 dis = v2 - v1;
+		int numSteps = 10;
+		for (int j = 0; j < numSteps; j++) {
+			float xStep = (float)dis.x * ((float)j / (float)numSteps);
+			float yStep = (float)dis.y * ((float)j / (float)numSteps);
+			CenteredScaleApplyImage(&FINAL_PLAY, &gRouteArrow.img, v1.x + xStep, v1.y + yStep, 1);
+		}
+
 	}
 }
 
@@ -122,6 +172,9 @@ void LoadImages(std::string path)
 
 	gRouteArrow.type = "RouteArrow";
 	LoadImage(&gRouteArrow.img, path + "\\RouteArrow.png");
+	
+	gReceiver.type = "Receiver";
+	LoadImage(&gReceiver.img, path + "\\ReceiverAlpha.png");
 }
 
 
@@ -172,7 +225,7 @@ Yes.
 
 The starting position has already been adjusted for.
 ******************************************************************/
-void RenderRoute(std::string name, Vec2 vStart)
+void RenderRouteOld(std::string name, Vec2 vStart)
 {
 	DATA_Route rt;
 	for (int i = 0; i < rHolder.numRoutes; i++)
