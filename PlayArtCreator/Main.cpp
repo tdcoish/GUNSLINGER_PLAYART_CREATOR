@@ -61,17 +61,16 @@ int main(int args, char** argc)
 	int n = GetModuleFileName(NULL, pathCharArray, MAX_PATH);
 	std::string exePath(pathCharArray);
 	std::cout << "EXE PATH: " << exePath << std::endl;
+	// have to remove the PlayArtCreator.exe from this. sigh. Didn't want to hardcode this.
+	exePath.erase(exePath.find("PlayArtCreator.exe"));
+	std::cout << "\nJUST THE DIRECTORY: " << exePath << std::endl;
 
-	std::string bsPth = "C:/Users/Timothy/Documents/Visual Studio 2017/Projects/PlayArtCreator/GUNSLINGER_PLAYART_CREATOR/PlayArtCreator";
-	std::string imgPath(bsPth + "/Graphics");
-	std::string formPth(bsPth + "/Formations");
-	std::string offPlayPth(bsPth + "/OffensivePlays");
-	std::cout << "Base Path: " << bsPth << std::endl;
+	std::string imgPath(exePath + "/Graphics");
+	std::string formPth(exePath + "/Formations");
+	std::string offPlayPth(exePath + "/OffensivePlays");
+	std::string offCreatedPath(exePath + "/PlayArt/Offense/");
 
 	CreateImage(&FINAL_PLAY, PLAY_SIZE_PIXELS);
-
-	std::string sSavePath = bsPth + "New Plays/";
-	std::cout << sSavePath;
 
 	LoadImages(imgPath);
 	std::cout << "Images Loaded" << std::endl;
@@ -79,14 +78,11 @@ int main(int args, char** argc)
 
 	OffFormationHolder offFormHolder;
 	offFormHolder = LoadOffensiveFormations(formPth);
-	for (int i = 0; i < offFormHolder.numFormations; i++) {
-		std::cout << "Formation Name: " << offFormHolder.aFormations[i].mName << std::endl;
-	}
 
 	OffPlayHolder offPlayHolder;
 	offPlayHolder = LoadOffensivePlays(offPlayPth);
 	PrintAllOffensivePlays(offPlayHolder);
-	CreateAllOffPlayArt(offPlayHolder, offFormHolder);
+	CreateAllOffPlayArt(offPlayHolder, offFormHolder, offCreatedPath);
 
 	//LoadZones(bsPth + "/zones.txt");
 	//LoadDefensivePlays(bsPth + "/defPlays.txt");

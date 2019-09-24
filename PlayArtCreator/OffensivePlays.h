@@ -22,7 +22,7 @@ DATA_Off_Route GetRouteFromPlayTag(std::string owner, std::string playName, OffP
 
 void LoadImages(std::string path);
 
-void CreateAllOffPlayArt(OffPlayHolder plays, OffFormationHolder formations);
+void CreateAllOffPlayArt(OffPlayHolder plays, OffFormationHolder formations, std::string dirPath);
 
 void PrintAllRoutes();
 

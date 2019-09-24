@@ -82,7 +82,8 @@ Vec2 GetStartingPositionFromFormation(std::string tag, std::string formation, Of
 	return vFalse;
 }
 
-void CreateAllOffPlayArt(OffPlayHolder plays, OffFormationHolder formations)
+// dirPath should equal something like exePath + "/PlayArt/Offense/
+void CreateAllOffPlayArt(OffPlayHolder plays, OffFormationHolder formations, std::string dirPath)
 {
 	std::cout << "Creating offensive play art..." << std::endl;
 	for (int i = 0; i < plays.mNumPlays; i++) {
@@ -109,7 +110,8 @@ void CreateAllOffPlayArt(OffPlayHolder plays, OffFormationHolder formations)
 			}
 		}
 
-		std::string sName = "PlayArt/Offense/" + plays.aPlays[i].mName + ".png";
+		std::string sName = dirPath + plays.aPlays[i].mName + ".png";
+		std::cout << "Writing Play TO: " << sName << std::endl;
 		WriteImage(FINAL_PLAY, sName);
 	}
 
