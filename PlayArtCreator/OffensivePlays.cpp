@@ -84,6 +84,7 @@ Vec2 GetStartingPositionFromFormation(std::string tag, std::string formation, Of
 
 void CreateAllOffPlayArt(OffPlayHolder plays, OffFormationHolder formations)
 {
+	std::cout << "Creating offensive play art..." << std::endl;
 	for (int i = 0; i < plays.mNumPlays; i++) {
 		ScaleApplyImage(&FINAL_PLAY, &gField.img, 0, 0, FINAL_PLAY.wd);
 			
@@ -108,11 +109,11 @@ void CreateAllOffPlayArt(OffPlayHolder plays, OffFormationHolder formations)
 			}
 		}
 
-
-
 		std::string sName = "PlayArt/Offense/" + plays.aPlays[i].mName + ".png";
 		WriteImage(FINAL_PLAY, sName);
 	}
+
+	std::cout << "Done creating plays!" << std::endl;
 }
 
 // Shove in WR1, for a given play, and you should get the route data.

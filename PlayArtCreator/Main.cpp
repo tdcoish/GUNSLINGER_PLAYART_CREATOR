@@ -70,6 +70,7 @@ int main(int args, char** argc)
 	std::cout << sSavePath;
 
 	LoadImages(imgPath);
+	std::cout << "Images Loaded" << std::endl;
 	LoadDefGraphics(imgPath);
 
 	OffFormationHolder offFormHolder;
@@ -83,14 +84,14 @@ int main(int args, char** argc)
 	PrintAllOffensivePlays(offPlayHolder);
 	CreateAllOffPlayArt(offPlayHolder, offFormHolder);
 
-	LoadZones(bsPth + "/zones.txt");
-	LoadDefensivePlays(bsPth + "/defPlays.txt");
+	//LoadZones(bsPth + "/zones.txt");
+	//LoadDefensivePlays(bsPth + "/defPlays.txt");
 
 	//PrintAllZones();
 	//PrintAllDefensivePlays();
 
 	// Finally, the time has come to actually print out the play art.
-	CreateAllDefensivePlayArt();
+	//CreateAllDefensivePlayArt();
 
 
 	//std::getchar();
