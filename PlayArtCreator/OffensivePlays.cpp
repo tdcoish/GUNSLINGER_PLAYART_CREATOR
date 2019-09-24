@@ -64,6 +64,47 @@ void PrintAllOffensivePlays(OffPlayHolder holder)
 
 }
 
+Vec2 GetStartingPositionFromFormation(std::string tag, std::string formation, OffFormationHolder formHolder)
+{
+	// get the correct formation
+	for (int i = 0; i < formHolder.numFormations; i++) {
+		if (formHolder.aFormations[i].mName == formation) {
+			for (int j = 0; j < formHolder.aFormations[i].mNumPlayers; j++) {
+				if (formHolder.aFormations[i].aTags[j] == tag) {
+					return formHolder.aFormations[i].aSpots[j];
+				}
+			}
+		}
+	}
+
+	Vec2 vFalse; vFalse.x = 0; vFalse.y = 0;
+	return vFalse;
+}
+
+void CreateAllOffPlayArt(OffPlayHolder plays, OffFormationHolder formations)
+{
+	for (int i = 0; i < plays.mNumPlays; i++) {
+		ScaleApplyImage(&FINAL_PLAY, &gField.img, 0, 0, FINAL_PLAY.wd);
+			
+		//ScaleApplyImage(&FINAL_PLAY, &gPlayer.img, 50, 50, 10);
+
+		// Need to get the starting position for each player.
+		for (int j = 0; j < plays.aPlays[i].mNumPlayers; j++) {
+			Vec2 vStart = GetStartingPositionFromFormation(plays.aPlays[i].aTags[j], plays.aPlays[i].mFormation, formations);
+			vStart.x *= 2; vStart.y *= 2;
+			// Now we need to shove into the center.
+			vStart.x += 50; vStart.y += 50;
+			
+			CenteredScaleApplyImage(&FINAL_PLAY, &gBlock.img, vStart.x, vStart.y + 2, 2);
+		}
+
+
+
+		std::string sName = "PlayArt/Offense/" + plays.aPlays[i].mName + ".png";
+		WriteImage(FINAL_PLAY, sName);
+	}
+}
+
 //Loads the specific images that we need
 void LoadImages(std::string path)
 {

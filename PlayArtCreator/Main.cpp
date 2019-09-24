@@ -81,6 +81,7 @@ int main(int args, char** argc)
 	OffPlayHolder offPlayHolder;
 	offPlayHolder = LoadOffensivePlays(offPlayPth);
 	PrintAllOffensivePlays(offPlayHolder);
+	CreateAllOffPlayArt(offPlayHolder, offFormHolder);
 	
 	LoadRoutes(&rHolder, bsPth+"/routes.txt");
 	//LoadOffensivePlays(bsPth + "/plays.txt");
@@ -99,7 +100,7 @@ int main(int args, char** argc)
 	CreateAllDefensivePlayArt();
 
 
-	std::getchar();
+	//std::getchar();
 
 	return 0;
 }
