@@ -64,6 +64,12 @@ struct DATA_Off_Play {
 	DATA_PlayRole*			pRoles;
 };
 
+struct DATA_Off_Formation {
+	std::string				mName;
+	std::string*			aTags;
+	Vec2*					aSpots;
+};
+
 struct DATA_Def_Play {
 	std::string				mName;
 	int						numPlayers;
@@ -73,6 +79,11 @@ struct DATA_Def_Play {
 struct OffPlayHolder {
 	int						numPlays;
 	DATA_Off_Play*			aPlays;
+};
+
+struct OffFormationHolder {
+	int						numFormations;
+	DATA_Off_Formation*		aFormations;
 };
 
 struct DefPlayHolder {

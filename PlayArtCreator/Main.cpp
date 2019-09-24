@@ -29,6 +29,7 @@ Alright, parts of this program.
 
 std::string bsPth = "C:/Users/Timothy/Documents/Visual Studio 2017/Projects/PlayArtCreator/GUNSLINGER_PLAYART_CREATOR/PlayArtCreator";
 std::string imgPath(bsPth + "/Graphics");
+std::string formPth(bsPth + "/OffensivePlays");
 
 Image FINAL_PLAY;
 Graphic gField;
@@ -70,6 +71,8 @@ int main(int args, char** argc)
 	LoadImages(imgPath);
 	LoadDefGraphics(imgPath);
 
+	LoadOffensiveFormations(formPth);
+
 	LoadRoutes(&rHolder, bsPth+"/routes.txt");
 	LoadOffensivePlays(bsPth + "/plays.txt");
 
@@ -87,7 +90,7 @@ int main(int args, char** argc)
 	CreateAllDefensivePlayArt();
 
 
-	//std::getchar();
+	std::getchar();
 
 	return 0;
 }

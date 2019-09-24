@@ -1,12 +1,21 @@
 
+#include <string>
 #include <iostream>
 #include <fstream>
+#include <filesystem>
 #include "OffensivePlays.h"
 #include "Structs.h"
 
 #include "Globals.h"
 
+/***********************************************************************************
+Alrighty, the data in a play has changed, which means getting that data is going to
+require us to rewrite this.
+***********************************************************************************/
+
+
 OffPlayHolder OffensivePlays;
+OffFormationHolder rFormationHolder;
 RouteHolder rHolder;
 
 Graphic gPlayer;
@@ -189,6 +198,30 @@ bool LoadRoutes(RouteHolder* pRouteHolder, std::string filePath)
 	return false;
 }
 
+/**********************************************************************************
+Alrighty now! There are two seperate problems here. 
+1) Get some way of loading in all the text files individually.
+2) Read the data from the individual text file into the formation struct.
+**********************************************************************************/
+bool LoadOffensiveFormations(std::string filePath)
+{
+	// ooooooohhhhhh. experimental! Fancy!
+	for (const auto & entry : std::experimental::filesystem::directory_iterator(filePath)) {
+		std::cout << entry.path() << std::endl;
+		std::string filePath = entry.path().string();
+		if (filePath[(filePath.length() - 1)] == 'a') {
+			std::cout << "This is a meta file" << std::endl;
+		}
+		std::ifstream file(entry.path());
+		std::string str;
+		std::getline(file, str);
+
+		std::cout << "The first line: " + str << std::endl;
+	}
+
+	return false;
+}
+
 bool LoadOffensivePlays(std::string filePath)
 {
 	std::ifstream file("plays.txt");
@@ -224,6 +257,11 @@ bool LoadOffensivePlays(std::string filePath)
 	return false;
 }
 
+//bool LoadOffensivePlays(std::string filePath, bool second)
+//{
+//
+//	return false;
+//}
 
 
 
